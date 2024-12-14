@@ -1,17 +1,11 @@
 const express = require("express");
-const dbConnect = require("./config/config.js");
+const dbConnect = require("./config/dbConnect.js");
 
 (async () => {
-  try {
-    const conexao = await dbConnect();
-    console.log("Conectado com sucesso");
-  } catch (error) {
-    console.log(error);
-  }
+  await dbConnect();
 })();
 
 const app = express();
-
 app.use(express.json());
 
 app.get("/", (req, res) => {
