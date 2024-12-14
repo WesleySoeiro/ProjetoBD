@@ -1,17 +1,7 @@
 const express = require("express");
-const dbConnect = require("./config/dbConnect.js");
-
-(async () => {
-  await dbConnect();
-})();
+const routes = require("./routes");
 
 const app = express();
-app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.status(200).send({
-    message: "Bem vindo a API!",
-  });
-});
+routes(app);
 
 module.exports = app;
