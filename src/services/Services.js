@@ -1,5 +1,5 @@
 const { where } = require("sequelize");
-const dataSource = require("../models");
+const dataSource = require("../database/models");
 
 class Services {
   constructor(model) {
@@ -10,8 +10,10 @@ class Services {
     return dataSource[this.model].findAll();
   }
 
-  async filterProduct(id) {
-    return dataSource[this.model].findByPk(id);
+  async filterProduct(filtros) {
+    return dataSource[this.model].findOne({
+      where: filtros,
+    });
   }
 
   async create(id) {

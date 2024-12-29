@@ -4,16 +4,16 @@ const ProdutosController = require("../controllers/ProdutosController.js");
 const produtosController = new ProdutosController();
 
 routes
-  .get("/produtos", (req, res) => produtosController.getAllProducts(req, res))
-  .get("/produtos/:id", (req, res) =>
-    produtosController.filterProducts(req, res)
+  .get("/produtos", (req, res, next) => produtosController.getAllProducts(req, res, next))
+  .get("/produtos/buscar", (req, res, next) =>
+    produtosController.filterProducts(req, res, next)
   )
-  .post("/produtos", (req, res) => produtosController.createProduct(req, res))
-  .put("/produtos/:id", (req, res) =>
-    produtosController.updateProduct(req, res)
+  .post("/produtos", (req, res, next) => produtosController.createProduct(req, res, next))
+  .put("/produtos/:id", (req, res, next) =>
+    produtosController.updateProduct(req, res, next)
   )
-  .delete("/produtos/:id", (req, res) =>
-    produtosController.daleteProduct(req, res)
+  .delete("/produtos/:id", (req, res, next) =>
+    produtosController.daleteProduct(req, res, next)
   );
 
 module.exports = routes;
