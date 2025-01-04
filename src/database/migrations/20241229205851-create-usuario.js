@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("produtos", {
+    await queryInterface.createTable("usuarios", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -13,23 +13,38 @@ module.exports = {
       },
       nome: {
         type: Sequelize.STRING,
-        allowNull: false,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      fabricante: {
+      email: {
         type: Sequelize.STRING,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      senha: {
+        type: Sequelize.STRING,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      role: {
+        type: Sequelize.ENUM("user", "funcionario"),
         allowNull: false,
       },
-      preco: {
-        type: Sequelize.FLOAT,
+      ativo: {
+        type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      quantidade: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
+      telefone: {
+        type: Sequelize.STRING,
       },
-      data_entrada: {
+      cpf: {
+        type: Sequelize.STRING,
+      },
+      data_nascimento: {
         type: Sequelize.DATEONLY,
-        allowNull: false,
+      },
+      endereco: {
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
@@ -40,12 +55,12 @@ module.exports = {
         type: Sequelize.DATE,
       },
       deletedAt: {
-        allowNull: true,
         type: Sequelize.DATE,
+        allowNull: true,
       },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("produtos");
+    await queryInterface.dropTable("usuarios");
   },
 };

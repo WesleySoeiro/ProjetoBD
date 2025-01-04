@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("produtos", {
+    await queryInterface.createTable("cargos", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,21 +14,16 @@ module.exports = {
       nome: {
         type: Sequelize.STRING,
         allowNull: false,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        unique: true,
+        get() {
+          const value = this.getDataValue("nome");
+          return value ? value.toLowerCase() : value;
+        },
       },
-      fabricante: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      preco: {
+      salario: {
         type: Sequelize.FLOAT,
-        allowNull: false,
-      },
-      quantidade: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-      },
-      data_entrada: {
-        type: Sequelize.DATEONLY,
         allowNull: false,
       },
       createdAt: {
@@ -39,13 +34,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      deletedAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("produtos");
+    await queryInterface.dropTable("cargos");
   },
 };

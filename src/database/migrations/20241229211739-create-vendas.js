@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("produtos", {
+    await queryInterface.createTable("vendas", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -11,25 +11,21 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      nome: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      fabricante: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      preco: {
-        type: Sequelize.FLOAT,
-        allowNull: false,
-      },
-      quantidade: {
+      id_cliente: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
-      data_entrada: {
+      id_funcionario: {
+        type: Sequelize.INTEGER,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+      },
+      data_venda: {
         type: Sequelize.DATEONLY,
-        allowNull: false,
+      },
+      total_vendas: {
+        type: Sequelize.FLOAT,
       },
       createdAt: {
         allowNull: false,
@@ -39,13 +35,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      deletedAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-      },
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("produtos");
+    await queryInterface.dropTable("vendas");
   },
 };

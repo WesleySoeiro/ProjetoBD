@@ -2,26 +2,63 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Produto extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Produto.hasMany(models.Venda, {
+        foreignKey: "id_produto",
+      });
     }
   }
   Produto.init(
     {
-      nome: DataTypes.STRING,
-      fabricante: DataTypes.STRING,
-      valor: DataTypes.INTEGER,
-      data_entrada: DataTypes.DATEONLY,
+      nome: {
+        type: DataTypes.STRING,
+        set(value) {
+          const lowerCaseValue = value ? value.toLowerCase() : value;
+          this.setDataValue("nome", lowerCaseValue);
+        },
+        allowNull: false,
+      },
+      fabricante: {
+        type: DataTypes.STRING,
+        set(value) {
+          const lowerCaseValue = value ? value.toLowerCase() : value;
+          this.setDataValue("fabricante", lowerCaseValue);
+        },
+        allowNull: false,
+      },
+      preco_unitario: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Preco unitario não pode ser nulo" },
+        },
+      },
+      preco_total: {
+        type: DataTypes.FLOAT,
+        allowNull: true,
+      },
+      quantidade: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: { msg: "Quantidade não pode ser nula" },
+        },
+      },
+      data_entrada: { type: DataTypes.DATEONLY, allowNull: false },
     },
     {
       sequelize,
       modelName: "Produto",
       tableName: "produtos",
+      hooks: {
+        beforeSave: (produto, options) => {
+          console.log(produto.dataValues);
+
+          if (produto.preco_unitario && produto.quantidade) {
+            produto.preco_total = produto.preco_unitario * produto.quantidade;
+          }
+        },
+      },
     }
   );
   return Produto;

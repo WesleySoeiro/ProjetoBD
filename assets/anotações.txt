@@ -1,0 +1,3 @@
+feito as rotas de funcionarios e usuarios, CRUD ok
+
+respostas espelhando conforme desejado, produtos e vendaProdutos.
