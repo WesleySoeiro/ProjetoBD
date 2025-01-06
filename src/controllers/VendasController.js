@@ -10,7 +10,7 @@ class VendasController extends Controller {
 
   async getAllSales(req, res, next) {
     try {
-      const sales = await vendasServices.getSales();
+      const sales = await vendasServices.getSales(req, res, next);
       return res.status(200).json(sales);
     } catch (erro) {
       console.log(erro);

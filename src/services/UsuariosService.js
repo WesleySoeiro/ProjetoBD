@@ -11,7 +11,8 @@ class UsuariosServices extends Services {
 
   async getScope() {
     const results = await super.getScope("ativo");
-    return results;
+    req.resultado = results;
+    next();
   }
 }
 

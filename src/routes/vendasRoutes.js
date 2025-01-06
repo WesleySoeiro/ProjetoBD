@@ -1,26 +1,42 @@
 const routes = require("express").Router();
 const VendaController = require("../controllers/VendasController.js");
+const paginar = require("../middlewares/paginar.js");
 const vendasController = new VendaController();
 
 routes
-  .get("/vendas", (req, res, next) =>
-    vendasController.getAllSales(req, res, next)
+  .get(
+    "/vendas",
+    async (req, res, next) =>
+      await vendasController.getAllSales(req, res, next),
+    paginar
   )
 
-  .get("/vendas/buscar", (req, res, next) =>
-    vendasController.filterRegisters(req, res, next)
+  .get(
+    "/vendas/buscar",
+    async (req, res, next) =>
+      await vendasController.filterRegisters(req, res, next),
+    paginar
   )
 
-  .post("/vendas", (req, res, next) =>
-    vendasController.createRegisters(req, res, next)
+  .post(
+    "/vendas",
+    async (req, res, next) =>
+      await vendasController.createRegisters(req, res, next),
+    paginar
   )
 
-  .put("/vendas/:id", (req, res, next) =>
-    vendasController.updateRegisters(req, res, next)
+  .put(
+    "/vendas/:id",
+    async (req, res, next) =>
+      await vendasController.updateRegisters(req, res, next),
+    paginar
   )
 
-  .delete("/vendas/:id", (req, res, next) =>
-    vendasController.daleteRegisters(req, res, next)
+  .delete(
+    "/vendas/:id",
+    async (req, res, next) =>
+      await vendasController.daleteRegisters(req, res, next),
+    paginar
   );
 
 module.exports = routes;

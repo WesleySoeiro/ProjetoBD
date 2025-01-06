@@ -5,6 +5,7 @@ const cargos = require("./cargosRoutes.js");
 const vendas = require("./vendasRoutes.js");
 const manipuladorNaoEncontrado = require("../middlewares/manipuladorNaoEncontrado.js");
 const manipuladorDeErros = require("../middlewares/manipuladorDeErros.js");
+const paginar = require("../middlewares/paginar.js");
 
 module.exports = (app) => {
   app.route("/").get((req, res) => res.send("API Funcionando!"));
@@ -14,6 +15,7 @@ module.exports = (app) => {
     usuarios,
     cargos,
     vendas,
+    paginar,
     manipuladorNaoEncontrado,
     manipuladorDeErros
   );

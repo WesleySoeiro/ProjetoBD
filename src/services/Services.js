@@ -1,30 +1,40 @@
 const { where } = require("sequelize");
 const dataSource = require("../database/models");
+const NaoEncontrado = require("../erro/NaoEncontrado.js");
 
 class Services {
   constructor(model) {
     this.model = model;
   }
 
-  async getAll() {
-    return dataSource[this.model].findAll();
+  async getAll(req, res, next) {
+    const resultado = await dataSource[this.model].findAll();
+    req.resultado = resultado;
+    next();
   }
 
-  async getScope(scope, filtros) {
-    return dataSource[this.model].scope(scope).findAll(filtros);
+  async getScope(scope, filtros, req, res, next) {
+    const resultado = dataSource[this.model].scope(scope).findAll(filtros);
+    req.resultado = resultado;
+    next();
   }
 
-  async filterProduct(filtros) {
-    return dataSource[this.model].findOne({
+  async filterProduct(filtros, req, res, next) {
+    const resultado = await dataSource[this.model].findOne({
       where: filtros,
     });
+    if (resultado) {
+      req.resultado = resultado.toJSON();
+      next();
+    }
+    next(new NaoEncontrado("Registro não encontrado."));
   }
 
-  async create(dadosParaCriacao) {
+  async create(dadosParaCriacao, req, res, next) {
     return dataSource[this.model].create(dadosParaCriacao);
   }
 
-  async update(novosDados, id) {
+  async update(novosDados, id, req, res, next) {
     const listaAtualizada = await dataSource[this.model]
       .unscoped()
       .update(novosDados, {

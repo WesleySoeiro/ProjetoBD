@@ -3,43 +3,77 @@ const UsuariosController = require("../controllers/UsuariosController.js");
 const usuariosController = new UsuariosController();
 const FuncionariosController = require("../controllers/FuncionariosController.js");
 const funcionariosController = new FuncionariosController();
+const paginar = require("../middlewares/paginar.js");
 
 routes
-  .get("/usuarios", (req, res, next) =>
-    usuariosController.getAllRegisters(req, res, next)
+  .get(
+    "/usuarios",
+    async (req, res, next) =>
+      await usuariosController.getAllRegisters(req, res, next),
+    paginar
   )
-  .get("/usuarios/all", (req, res, next) =>
-    usuariosController.getRegistersByScope(req, res, next)
+  .get(
+    "/usuarios/all",
+    async (req, res, next) =>
+      await usuariosController.getRegistersByScope(req, res, next),
+    paginar
   )
-  .get("/usuarios/funcionarios", (req, res, next) =>
-    funcionariosController.getRegisters(req, res, next)
+  .get(
+    "/usuarios/funcionarios",
+    async (req, res, next) =>
+      await funcionariosController.getRegisters(req, res, next),
+    paginar
   )
-  .get("/usuarios/funcionarios/all", (req, res, next) =>
-    funcionariosController.getRegistersByScope(req, res, next)
-  )
-
-  .get("/usuarios/buscar", (req, res, next) =>
-    usuariosController.filterRegisters(req, res, next)
-  )
-  .post("/usuarios", (req, res, next) =>
-    usuariosController.createRegisters(req, res, next)
-  )
-  .post("/usuarios/:usuario_id/funcionarios", (req, res, next) =>
-    funcionariosController.createRegisters(req, res, next)
-  )
-
-  .put("/usuarios/:id", (req, res, next) =>
-    usuariosController.updateRegisters(req, res, next)
-  )
-  .put("/usuarios/:id/funcionarios", (req, res, next) =>
-    funcionariosController.updateRegisters(req, res, next)
+  .get(
+    "/usuarios/funcionarios/all",
+    async (req, res, next) =>
+      await funcionariosController.getRegistersByScope(req, res, next),
+    paginar
   )
 
-  .delete("/usuarios/:id", (req, res, next) =>
-    usuariosController.daleteRegisters(req, res, next)
+  .get(
+    "/usuarios/buscar",
+    async (req, res, next) =>
+      await usuariosController.filterRegisters(req, res, next),
+    paginar
   )
-  .delete("/usuarios/:id/funcionarios", (req, res, next) =>
-    funcionariosController.daleteRegisters(req, res, next)
+  .post(
+    "/usuarios",
+    async (req, res, next) =>
+      await usuariosController.createRegisters(req, res, next),
+    paginar
+  )
+  .post(
+    "/usuarios/:usuario_id/funcionarios",
+    async (req, res, next) =>
+      await funcionariosController.createRegisters(req, res, next),
+    paginar
+  )
+
+  .put(
+    "/usuarios/:id",
+    async (req, res, next) =>
+      await usuariosController.updateRegisters(req, res, next),
+    paginar
+  )
+  .put(
+    "/usuarios/:id/funcionarios",
+    async (req, res, next) =>
+      await funcionariosController.updateRegisters(req, res, next),
+    paginar
+  )
+
+  .delete(
+    "/usuarios/:id",
+    async (req, res, next) =>
+      await usuariosController.daleteRegisters(req, res, next),
+    paginar
+  )
+  .delete(
+    "/usuarios/:id/funcionarios",
+    async (req, res, next) =>
+      await funcionariosController.daleteRegisters(req, res, next),
+    paginar
   );
 
 module.exports = routes;

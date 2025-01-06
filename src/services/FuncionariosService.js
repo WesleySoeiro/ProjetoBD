@@ -22,7 +22,6 @@ class FuncionariosServices extends Services {
         },
       ],
     });
-    console.log(results);
 
     const funcionario = results.map((func) => {
       const resposta = func.toJSON();
@@ -34,7 +33,8 @@ class FuncionariosServices extends Services {
       };
     });
 
-    return funcionario;
+    req.resultado = funcionario;
+    next();
   }
 
   async getScope() {
@@ -62,7 +62,8 @@ class FuncionariosServices extends Services {
       };
     });
 
-    return respostas;
+    req.resultado = respostas;
+    next();
   }
 }
 

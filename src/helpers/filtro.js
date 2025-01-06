@@ -1,8 +1,10 @@
+const { Op } = require("sequelize");
+
 function filtro(preco, query) {
-  let filtro = {};
+  let filtros = {};
   preco = Number(query.preco) || null;
   if (preco !== null) {
-    filtro.preco = preco;
+    filtros.preco = preco;
   }
 
   if (Object.keys(query).length === 0) {
@@ -14,7 +16,7 @@ function filtro(preco, query) {
       if (value.trim() === "") {
         return next(new CamposVazios());
       }
-      filtro[key] = { [Op.iLike]: `%${value}%` };
+      filtros[key] = { [Op.like]: `%${value}%` };
     }
     if (key == "preco") {
       if (preco === null) {
@@ -25,11 +27,10 @@ function filtro(preco, query) {
           )
         );
       }
+      filtros.preco = preco;
     }
   }
-  return filtro;
+  return filtros;
 }
 
-module.exports = {
-  filtro,
-};
+module.exports = filtro;

@@ -1,23 +1,39 @@
 const routes = require("express").Router();
 const ProdutosController = require("../controllers/ProdutosController.js");
+const paginar = require("../middlewares/paginar.js");
 
 const produtosController = new ProdutosController();
 
 routes
-  .get("/produtos", (req, res, next) =>
-    produtosController.getAllRegisters(req, res, next)
+  .get(
+    "/produtos",
+    async (req, res, next) =>
+      await produtosController.getAllRegisters(req, res, next),
+    paginar
   )
-  .get("/produtos/buscar", (req, res, next) =>
-    produtosController.filterRegisters(req, res, next)
+  .get(
+    "/produtos/buscar",
+    async (req, res, next) =>
+      await produtosController.filterRegisters(req, res, next),
+    paginar
   )
-  .post("/produtos", (req, res, next) =>
-    produtosController.createRegisters(req, res, next)
+  .post(
+    "/produtos",
+    async (req, res, next) =>
+      await produtosController.createRegisters(req, res, next),
+    paginar
   )
-  .put("/produtos/:id", (req, res, next) =>
-    produtosController.updateRegisters(req, res, next)
+  .put(
+    "/produtos/:id",
+    async (req, res, next) =>
+      await produtosController.updateRegisters(req, res, next),
+    paginar
   )
-  .delete("/produtos/:id", (req, res, next) =>
-    produtosController.daleteRegisters(req, res, next)
+  .delete(
+    "/produtos/:id",
+    async (req, res, next) =>
+      await produtosController.daleteRegisters(req, res, next),
+    paginar
   );
 
 module.exports = routes;

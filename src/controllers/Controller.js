@@ -11,24 +11,23 @@ class Controller {
 
   async getAllRegisters(req, res, next) {
     try {
-      const listarRegistros = await this.entidadeService.getAll(req, res);
-      console.log(listarRegistros.dataValues);
-      return res.status(200).json(listarRegistros);
+      const listarRegistros = await this.entidadeService.getAll(req, res, next);
     } catch (erro) {
+      console.log(erro);
+
       next(new NaoEncontrado());
     }
   }
 
   async filterRegisters(req, res, next) {
-    filtro(req.query.valor, req.query);
+    const filter = filtro(req.query.preco, req.query);
     try {
-      const listarRegistros = await this.entidadeService.filterProduct(filtro);
-
-      if (!listarRegistros) {
-        return res.status(404).json({ mensagem: "registro nao encontrado" });
-      }
-
-      return res.status(200).json(listarRegistros);
+      const listarRegistros = await this.entidadeService.filterProduct(
+        filter,
+        req,
+        res,
+        next
+      );
     } catch (erro) {
       next(erro);
     }
@@ -39,12 +38,13 @@ class Controller {
 
     try {
       const novoRegistroCriado = await this.entidadeService.create(
-        dadosParaCriacao
+        dadosParaCriacao,
+        req,
+        res,
+        next
       );
       return res.status(201).json(novoRegistroCriado);
     } catch (erro) {
-      console.log(erro);
-
       next(erro);
     }
   }
@@ -55,7 +55,10 @@ class Controller {
     try {
       const isUpdate = await this.entidadeService.update(
         dadosParaAtualizacao,
-        Number(id)
+        Number(id),
+        req,
+        res,
+        next
       );
 
       if (isUpdate) {

@@ -6,7 +6,7 @@ class VendasServices extends Services {
     super("Venda");
   }
 
-  async getSales() {
+  async getSales(req, res, next) {
     const vendas = await Venda.findAll({
       include: [
         {
@@ -26,7 +26,6 @@ class VendasServices extends Services {
         },
       ],
     });
-    console.log(vendas);
 
     const vendasFormatadas = vendas.map((venda) => {
       const vendaFormatada = venda.toJSON();
@@ -39,7 +38,8 @@ class VendasServices extends Services {
       };
       return resposta;
     });
-    return vendasFormatadas;
+    req.resultado = vendasFormatadas;
+    next();
   }
 }
 
