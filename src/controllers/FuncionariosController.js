@@ -10,20 +10,19 @@ class FuncionariosController extends Controller {
 
   async getRegisters(req, res, next) {
     try {
-      const results = await funcionariosServices.getEmployee();
+      const results = await funcionariosServices.getEmployee(req, res, next);
       return res.status(200).json(results);
     } catch (erro) {
-      console.log(erro);
-
       next(erro);
     }
   }
 
   async getRegistersByScope(req, res, next) {
     try {
-      const results = await funcionariosServices.getScope();
-      return res.status(200).json(results);
+      const results = await funcionariosServices.getScope(req, res, next);
     } catch (erro) {
+      console.log(erro);
+
       next(erro);
     }
   }

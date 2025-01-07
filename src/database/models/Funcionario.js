@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       tableName: "funcionarios",
       paranoid: true,
       scopes: {
-        ativo: { where: {} },
+        todos: { where: {} },
       },
     }
   );

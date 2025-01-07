@@ -14,9 +14,7 @@ class Services {
   }
 
   async getScope(scope, filtros, req, res, next) {
-    const resultado = dataSource[this.model].scope(scope).findAll(filtros);
-    req.resultado = resultado;
-    next();
+    return dataSource[this.model].scope(scope).findAll(filtros);
   }
 
   async filterProduct(filtros, req, res, next) {

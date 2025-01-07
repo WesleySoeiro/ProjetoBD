@@ -1,5 +1,5 @@
 const Services = require("./Services.js");
-const { Funcionario, Usuario, Cargo, cargo_id } = require("../database/models");
+const { Funcionario, Usuario, Cargo } = require("../database/models");
 const { where } = require("sequelize");
 
 class FuncionariosServices extends Services {
@@ -7,7 +7,7 @@ class FuncionariosServices extends Services {
     super("Funcionario");
   }
 
-  async getEmployee() {
+  async getEmployee(req, res, next) {
     const results = await Funcionario.findAll({
       include: [
         {
@@ -37,11 +37,11 @@ class FuncionariosServices extends Services {
     next();
   }
 
-  async getScope() {
-    const results = await super.getScope("ativo", {
+  async getScope(req, res, next) {
+    const results = await super.getScope("todos", {
       include: [
         {
-          model: Usuario,
+          model: Usuario.scope("funcionarios"),
           as: "usuarioId",
           attributes: ["nome"],
         },
@@ -52,6 +52,7 @@ class FuncionariosServices extends Services {
         },
       ],
     });
+
     const respostas = results.map((func) => {
       const resposta = func.toJSON();
       return {

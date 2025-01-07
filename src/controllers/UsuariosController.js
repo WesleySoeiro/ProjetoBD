@@ -8,17 +8,12 @@ class UsuariosController extends Controller {
     super(usuariosServices);
   }
 
-  async getClientRegisters(req, res, next) {
-    const { id } = req.params;
-    const listarRegistros = await this.entidadeService.getClient(Number(id));
-    return res.status(200).json(listarRegistros);
-  }
-
   async getRegistersByScope(req, res, next) {
     try {
-      const results = await usuariosServices.getScope();
-      return res.status(200).json(results);
+      const results = await usuariosServices.getScope(req, res, next);
     } catch (erro) {
+      console.log(erro);
+
       next(erro);
     }
   }

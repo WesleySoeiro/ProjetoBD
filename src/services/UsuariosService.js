@@ -9,7 +9,7 @@ class UsuariosServices extends Services {
     super.getClient(id);
   }
 
-  async getScope() {
+  async getScope(req, res, next) {
     const results = await super.getScope("ativo");
     req.resultado = results;
     next();
